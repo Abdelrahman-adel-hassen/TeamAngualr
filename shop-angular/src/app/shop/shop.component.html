@@ -1,0 +1,309 @@
+<!-- <app-section-header></app-section-header> -->
+
+<section class="products-shop section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <!-- color and size -->
+        <div class="mb-5">
+          <!-- customers reviews -->
+          <section class="widget widget-sizes mb-5">
+            <div #rate class="form-check" *ngFor="let rate of [4, 3, 2, 1]">
+              <input
+                class="form-check-input"
+                type="radio"
+                [value]="isChecked"
+                name="Rate"
+                [checked]="rate == star"
+                (click)="onRatingchange(rate)"
+                id="Rate{{ rate }}"
+              />
+              {{ isChecked }}
+              <label for="Rate{{ rate }}">
+                <div class="ratings" for="Rate{{ rate }}">
+                  <a>
+                    <i class="fa fa-star rating-color"></i>
+                    <i
+                      class="fa fa-star"
+                      [ngClass]="{ 'rating-color': rate >= 2 }"
+                    ></i>
+                    <i
+                      class="fa fa-star"
+                      [ngClass]="{ 'rating-color': rate >= 3 }"
+                    ></i>
+                    <i
+                      class="fa fa-star"
+                      [ngClass]="{ 'rating-color': rate >= 4 }"
+                    ></i>
+                    <i class="fa fa-star"></i>
+                  </a>
+                  <span class="a-size-small a-color-base a-text-bold up"
+                    >&up</span
+                  >
+                </div>
+              </label>
+            </div>
+          </section>
+          <!-- brands-->
+          <section
+            *ngIf="MainBrand.length > 0"
+            class="widget widget-sizes mb-5"
+            style="height: 250px"
+          >
+
+            <h3 class="widget-title h4 mb-4">Shop by brand</h3>
+            <input
+              type="text"
+              id="brand"
+              (input)="onBrandSearch($event.target.value)"
+              class="form-control"
+              placeholder="Search"
+            />
+            <div class="overflow-auto" style="height: 230px">
+              <div class="form-check" *ngFor="let brand of brands">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  (change)="onBrandSelected(brand.name, $event)"
+                  id="brand{{ brand.id }}"
+                />
+                <label class="form-check-label" for="brand{{ brand.id }}">
+                  {{ brand.name }}
+                </label>
+              </div>
+            </div>
+          </section>
+          <!-- Colors-->
+          <section
+            *ngIf="colors.length > 0"
+            class="widget widget-sizes mb-5"
+            style="max-height: 250px"
+          >
+            <h3 class="widget-title h4 mb-4">Shop by Color</h3>
+
+            <div class="overflow-auto" style="height: 230px">
+              <div class="form-check" *ngFor="let color of colors">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  (change)="onColorSelected(color.name, $event)"
+                  id="color{{ color.id }}"
+                />
+                <label class="form-check-label" for="color{{ color.id }}">
+                  {{ color.name }}
+                </label>
+              </div>
+            </div>
+          </section>
+          <!-- Sizes-->
+          <section
+            *ngIf="Sizes.length > 0"
+            class="widget widget-sizes mb-5"
+            style="max-height: 250px"
+          >
+            <h3 class="widget-title h4 mb-4">Shop by Size</h3>
+
+            <div class="overflow-auto" style="height: 230px">
+              <div class="form-check" *ngFor="let size of Sizes">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  (change)="onSizeSelected(size.name, $event)"
+                  id="Size{{ size.id }}"
+                />
+                <label class="form-check-label" for="Size{{ size.id }}">
+                  {{ size.name }}
+                </label>
+              </div>
+            </div>
+          </section>
+          <!-- price-->
+
+          <section class="widget widget-sizes mb-5">
+            <h3 class="widget-title h4 mb-4">Shop by price</h3>
+
+            <!-- <npn-slider
+              [min]="1"
+              [max]="9000"
+              (onChange)="onSliderChange($event)"
+              [step]="500"
+              [minSelected]="min_Range"
+              [maxSelected]="max_Range"
+              [showStepIndicator]="true"
+              [multiRange]="true"
+            ></npn-slider> -->
+            <div style="text-align: center">
+              <input
+                type="number"
+                name="min"
+                class="pi"
+                [value]="min_Range"
+                placeholder="Min"
+                (change)="onMinChange($event.target)"
+                max="9000"
+                min="1"
+              />
+
+              <input
+                type="number"
+                name="max"
+                class="pi"
+                [value]="max_Range"
+                (change)="onMaxChange($event.target)"
+                placeholder="Max"
+                min="1"
+                max="9000"
+              />
+              <br />
+              <a
+                (click)="onApplyPrice()"
+                class="data-apply"
+                style="cursor: pointer"
+                >Apply</a
+              >
+            </div>
+          </section>
+
+          <section class="widget widget-sizes mb-5">
+            <h3 class="widget-title h4 mb-4">Shop by Category</h3>
+            <div class="panel-group">
+              <div
+                class="panel panel-default mb-3"
+                *ngFor="let category of categories"
+              >
+                <div class="d-flex justify-content-between">
+                  <div class="panel-heading">
+                    <a (click)="onCategorySelected(category.id)">
+                      {{ category.name }}
+                    </a>
+                  </div>
+                  <a
+                    *ngIf="category.id > 0"
+                    data-toggle="collapse"
+                    href="#collapse{{ category.id }}"
+                  >
+                    more
+                  </a>
+                </div>
+                <div
+                  id="collapse{{ category.id }}"
+                  class="panel-collapse collapse"
+                >
+                  <ul class="list-group">
+                    <li
+                      class="list-group-item"
+                      *ngFor="let subCategory of category.subCategory"
+                    >
+                      <a
+                        (click)="
+                          onSubCategorySelected(subCategory, category.id)
+                        "
+                        >{{ subCategory }}</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- <button type="button" class="btn btn-black btn-small">Filter</button> -->
+        </div>
+
+        <!-- popular product -->
+      </div>
+      <div class="col-md-9">
+        <div class="row align-items-center">
+          <div class="col-lg-12 mb-4 mb-lg-0">
+            <div class="section-title">
+              <h2 class="d-block text-left-sm">Shop</h2>
+
+              <div class="heading d-flex justify-content-between mb-5">
+                <app-paging-header
+                  [totalCount]="totalCount || 0"
+                  [pageSize]="shopParams.pageSize"
+                  [pageNumber]="shopParams.pageNumber"
+                >
+                </app-paging-header>
+
+                <div class="ordering" method="get">
+                  <select
+                    class="custom-select my-1"
+                    (change)="onSortSelected($event.target)"
+                    title="sort"
+                  >
+                    <option
+                      *ngFor="let sort of sortOptions"
+                      [value]="sort.value"
+                    >
+                      {{ sort.name }}
+                    </option>
+                  </select>
+                  <input type="hidden" name="paged" value="1" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mb-3 h4" *ngIf="shopParams.search">
+          <span>Result of</span><strong> {{shopParams.search}}</strong> <a routerLink="/shop" class="h6 text-color ml-2" >clear:</a>
+        </div>
+
+        <div class="row">
+          <div
+            class="col-lg-4 col-12 col-md-6 col-sm-6 mb-5"
+            *ngFor="let product of products"
+          >
+       
+            <!-- productItem -->
+            <app-product-item [product]="product"> </app-product-item>
+            
+          </div>
+
+          <div class="col-12">
+            <div
+              class="d-flex justify-content-center"
+              *ngIf="totalCount && totalCount > 0"
+            >
+              <app-pager
+                [pageSize]="shopParams.pageSize"
+                [totalCount]="totalCount"
+                (pageChanged)="onPageChanged($event)"
+              ></app-pager>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div id="simpleModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Item Added</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">your product added to your favorite list</div>
+      <div class="modal-footer">
+        <a class="btn btn-secondary" data-dismiss="modal">continue shopping</a>
+        <a
+          routerLink="/favourite"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+          >go to favourite list</a
+        >
+      </div>
+    </div>
+  </div>
+</div>

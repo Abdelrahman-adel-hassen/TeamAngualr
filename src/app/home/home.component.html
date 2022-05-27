@@ -1,0 +1,515 @@
+<div class="container">
+  <ngx-slick-carousel class="main-slider slider" [config]="slideConfig">
+    <div
+      ngxSlickItem
+      class="slider-item"
+      style="
+        background-image: url('assets/images/head1.jpg');
+        background-position: 50%;
+        background-repeat: no-repeat;
+      "
+    >
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 col-12 offset-lg-6 offset-md-6">
+            <div class="slider-caption">
+              <span class="lead">Trendy dress</span>
+              <h1 class="mt-2 mb-5">
+                <span class="text-color">Winter </span>Collection
+              </h1>
+              <a (click)="shopSale(70, 1)" class="btn btn-outline-warning"
+                >Shop Now</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      ngxSlickItem
+      class="slider-item"
+      style="background-image: url('assets/images/head1.jpg')"
+    >
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 col-12 offset-lg-6 offset-md-6">
+            <div class="slider-caption">
+              <span class="lead">trousers </span>
+              <h1 class="mt-2 mb-5">
+                <span class="text-color">70% off </span>to everything
+              </h1>
+              <a (click)="shopSale(70, 1)" class="btn btn-outline-warning"
+                >Shop Now</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div
+      ngxSlickItem
+      class="slider-item"
+      style="background-image: url('assets/images/tv.jpg')"
+    >
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 col-12 offset-lg-6 offset-md-6">
+            <div class="slider-caption">
+              <span class="lead">up to 70% off</span>
+              <h1 class="mt-2 mb-5">
+                <span class="text-color">Classic</span> Style
+              </h1>
+              <a (click)="shopSale('70', 'lap')" class="btn btn-main"
+                >Shop Now</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+  </ngx-slick-carousel>
+
+  <section class="category section pt-3 pb-0">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-sm-12 col-md-6 ">
+          <h3>Shop activity trackers and smartwatches</h3>
+          <div class="cat-item mb-4 mb-lg-0">
+            <img  (click)="shop('Gloves')" src="assets/images/watch.jpg" alt="" class="img-fluid" />
+            <a
+            (click)="shop('watch')"
+            class="read-more"
+            style="cursor: pointer"
+            >Shop now</a
+          >
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-sm-12 col-md-6 ">
+          <div class="cat-item mb-4 mb-lg-0">
+            <h3>Shop activity trackers and smartwatches</h3>
+            <img  (click)="shop('Gloves')" src="assets/images/watch.jpg" alt="" class="img-fluid" />
+
+            <a
+                (click)="shop('watch')"
+                class="read-more"
+                style="cursor: pointer"
+                >Shop now</a
+              >
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-sm-12 col-md-6 ">
+          <div class="cat-item">
+            <h3>Shop activity trackers and smartwatches</h3>
+            <img  (click)="shop('Gloves')" src="assets/images/watch.jpg" alt="" class="img-fluid"  />
+            <a
+                (click)="shop('Gloves')"
+                class="read-more"
+                style="cursor: pointer"
+                >Shop now</a
+              >
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section *ngIf="newArrivals.array.length > 0" class="section products-main">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="title text-center">
+            <h2>New arrivals</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div
+          class="col-lg-3 col-12 col-md-6 col-sm-6 mb-5 newArrivals"
+          *ngFor="let product of newArrivals.array"
+        >
+          <div class="product">
+            <div class="product-wrap">
+              <a routerLink="shop/{{ product.id }}"
+                ><img
+
+                  class="img-fluid w-100 mb-3 img-first"
+                  [src]="product.pictureUrl[0]"
+                  alt="product-img"
+              /></a>
+              <a routerLink="shop/{{ product.id }}"
+                ><img
+                  class="img-fluid w-100 mb-3 img-second"
+                  [src]="product.pictureUrl[1]"
+                  alt="product-img"
+              /></a>
+            </div>
+
+            <div class="product-hover-overlay">
+              <a (click)="addItemToBasket(product)"><i class="tf-ion-android-cart"></i></a>
+              <a href="#simpleModal" (click)="addItemToFavourite(product)" data-toggle="modal"  data-backdrop="static"  data-keyboard="false"><i class="tf-ion-ios-heart"></i></a>
+
+              <!-- <a href="#"><i class="tf-ion-ios-heart"></i></a> -->
+            </div>
+
+            <div class="product-info">
+              <h2 class="product-title h5 mb-0">
+                <a routerLink="shop/{{ product.id }}">{{ product.name }}</a>
+              </h2>
+              <rating
+              class="rating-big"
+              [(ngModel)]="product.averageRating"
+
+              [max]="max"
+              [readonly]="true"
+           ></rating>
+           <br>
+              <span class="price"*ngIf="product.sale == 0">
+                {{ product.price | currency }}
+              </span>
+              <span class="price" *ngIf="product.sale > 0">
+                <del>
+                  {{ product.price | currency }}
+                </del>
+
+                {{ product.price * ((100 - product.sale) / 100) | currency }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section *ngIf="BestWatches.array.length > 0" class="section pt-3 pb-0">
+    <h2>Watches</h2>
+    <ngx-slick-carousel
+    class="carousel"
+    #slickModal="slick-carousel"
+    [config]="slideConfig2"
+  >
+    <div
+      ngxSlickItem
+      class="par col-2 slide"
+      *ngFor="let product of BestWatches.array"
+    >
+    <a routerLink="shop/{{ product.id }}">
+      <img  [src]="product.pictureUrl[0]" alt="..." width="100%" />
+  </a>
+      <div class="card-body">
+        <h5 class="card-title">{{ product.name }}</h5>
+        <rating [(ngModel)]="product.averageRating"
+
+          [max]="max"
+          [readonly]="true"
+       ></rating>
+        <p class="card-text" *ngIf="product.sale == 0">{{ product.price| currency  }}</p>
+        <p class="card-text" *ngIf="product.sale > 0">
+          <del>
+            {{ product.price | currency }}
+          </del>
+          &nbsp;
+          {{ product.price * ((100 - product.sale) / 100) | currency }}
+        </p>
+      </div>
+    </div>
+  </ngx-slick-carousel>
+  </section>
+
+  <section *ngIf="BestSellers.array.length > 0" class="section pt-3 pb-0">
+    <h2>Best Sellers</h2>
+    <ngx-slick-carousel
+    class="carousel"
+    #slickModal="slick-carousel"
+    [config]="slideConfig2"
+  >
+    <div
+      ngxSlickItem
+      class="par col-2 slide"
+      *ngFor="let product of BestSellers.array"
+    >
+    <a routerLink="shop/{{ product.id }}">
+      <img [src]="product.pictureUrl[0]" alt="..." width="100%" />
+    </a>
+      <div class="card-body">
+        <h5 class="card-title">{{ product.name }}</h5>
+        <rating [(ngModel)]="product.averageRating"
+
+          [max]="max"
+          [readonly]="true"
+       ></rating>
+        <p class="card-text" *ngIf="product.sale == 0">{{ product.price|currency }}</p>
+        <p class="card-text" *ngIf="product.sale > 0">
+          <del>
+            {{ product.price | currency }}
+          </del>
+          &nbsp;
+          {{ product.price * ((100 - product.sale) / 100) | currency }}
+        </p>
+      </div>
+    </div>
+  </ngx-slick-carousel>
+  </section>
+  <section class="section pt-3 pb-0 ">
+    <h2>Shop by Category</h2>
+
+    <div class="cateogries">
+      <a (click)="shop('headphone')">
+        <img (click)="shop('headphone')" src="assets/images/head2.jpg" />
+        <h4>headphone</h4>
+      </a>
+
+      <a (click)="shop('headphone')">
+        <img (click)="shop('headphone')"  src="assets/images/head2.jpg" />
+        <h4>Tablets</h4>
+      </a>
+    </div>
+    <div class="cateogries">
+      <a (click)="shop('headphone')">
+        <img (click)="shop('headphone')"  src="assets/images/head2.jpg" />
+        <h4>headphone</h4>
+      </a>
+      <a (click)="shop('headphone')">
+        <img (click)="shop('headphone')"  src="assets/images/head2.jpg" />
+        <h4>Tablets</h4>
+      </a>
+    </div>
+  </section>
+  <section *ngIf="BestTvs.array.length > 0" class="section pt-3 pb-0">
+    <h2>Televisions</h2>
+    <ngx-slick-carousel
+    class="carousel"
+    #slickModal="slick-carousel"
+    [config]="slideConfig2"
+  >
+    <div
+      ngxSlickItem
+      class="par col-2 slide "
+
+      *ngFor="let product of BestTvs.array"
+    >
+    <a routerLink="shop/{{ product.id }}">
+      <img [src]="product.pictureUrl[0]" alt="..." width="100%" />
+    </a>
+      <div class="card-body">
+        <h5 class="card-title">{{ product.name }}</h5>
+        <rating [(ngModel)]="product.averageRating"
+
+          [max]="max"
+          [readonly]="true"
+       ></rating>
+        <p class="card-text" *ngIf="product.sale == 0">{{ product.price|currency  }}</p>
+        <p class="card-text" *ngIf="product.sale > 0">
+          <del>
+            {{ product.price | currency }}
+          </del>
+          &nbsp;
+          {{ product.price * ((100 - product.sale) / 100) | currency }}
+        </p>
+      </div>
+    </div>
+  </ngx-slick-carousel>
+  </section>
+
+  <section *ngIf="BestSellers.array.length > 0" class="section pt-3 pb-0">
+    <h2>Top Products</h2>
+    <ngx-slick-carousel
+      class="carousel"
+      #slickModal="slick-carousel"
+      [config]="slideConfig2"
+    >
+      <div
+        ngxSlickItem
+        class="par col-2 slide"
+        *ngFor="let product of BestProducts.array"
+      >
+      <a routerLink="shop/{{ product.id }}">
+        <img [src]="product.pictureUrl[0]" alt="..." width="100%" />
+      </a>
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <rating [(ngModel)]="product.averageRating"
+
+          [max]="max"
+          [readonly]="true"
+       ></rating>
+          <p class="card-text" *ngIf="product.sale == 0">{{ product.price|currency  }}</p>
+          <p class="card-text" *ngIf="product.sale > 0">
+            <del>
+              {{ product.price | currency }}
+            </del>
+            &nbsp;
+            {{ product.price * ((100 - product.sale) / 100) | currency }}
+          </p>
+        </div>
+      </div>
+    </ngx-slick-carousel>
+  </section>
+
+  <!-- /portfolio -->
+
+
+  <section *ngIf="BestSellers.array.length > 0" class="section products-list">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-sm-12 col-md-12">
+          <img
+            src="assets/images/adsv.jpg"
+            alt="Product big thumb"
+            class="img-fluid w-100"
+          />
+        </div>
+
+        <div class="col-lg-4 col-sm-6 col-md-6">
+          <div class="widget-featured-entries mt-5 mt-lg-0">
+            <h4 class="mb-4 pb-3">Best selllers</h4>
+
+            <div
+              class="media mb-3"
+              *ngFor="let product of BestSellers.array | slice: 0:5"
+            >
+              <a
+                class="featured-entry-thumb"
+                routerLink="shop/{{ product.id }}"
+              >
+
+                <img
+                  [src]="product.pictureUrl[0]"
+                  alt="Product thumb"
+                  width="75"
+                  class="img-fluid mr-3"
+                />
+              </a>
+              <div class="media-body">
+                <h6 class="featured-entry-title mb-0">
+                  <a routerLink="shop/{{ product.id }}">{{ product.name }}</a>
+                </h6>
+                <rating [(ngModel)]="product.averageRating"
+
+                [max]="max"
+                [readonly]="true"
+             ></rating>
+                <p class="featured-entry-meta">
+                  {{ product.price | currency }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          *ngIf="newArrivals.array.length > 0"
+          class="col-lg-4 col-sm-6 col-md-6"
+        >
+          <div class="widget-featured-entries mt-5 mt-lg-0">
+            <h4 class="mb-4 pb-3">New Arrivals</h4>
+
+            <div
+              class="media mb-3"
+              *ngFor="let product of newArrivals.array | slice: 0:5"
+            >
+              <a
+                class="featured-entry-thumb"
+                routerLink="shop/{{ product.id }}"
+              >
+                <img
+                  [src]="product.pictureUrl[0]"
+                  alt="Product thumb"
+                  width="75"
+                  class="img-fluid mr-3"
+                />
+              </a>
+              <div class="media-body">
+
+                <h6 class="featured-entry-title mb-0">
+                  <a routerLink="shop/{{ product.id }}">{{ product.name }}</a>
+                </h6>
+                <rating [(ngModel)]="product.averageRating"
+
+                [max]="max"
+                [readonly]="true"
+             ></rating>
+                <p class="featured-entry-meta">
+                  {{ product.price | currency }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features border-top">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-sm-6 col-md-6">
+          <div class="feature-block">
+            <i class="tf-ion-android-bicycle"></i>
+            <div class="content">
+              <h5>Free Shipping</h5>
+              <p>On all order over $39.00</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-md-6">
+          <div class="feature-block">
+            <i class="tf-wallet"></i>
+            <div class="content">
+              <h5>30 Days Return</h5>
+              <p>Money back Guarantee</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-md-6">
+          <div class="feature-block">
+            <i class="tf-key"></i>
+            <div class="content">
+              <h5>Secure Checkout</h5>
+              <p>100% Protected by paypal</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-md-6">
+          <div class="feature-block">
+            <i class="tf-clock"></i>
+            <div class="content">
+              <h5>24/7 Support</h5>
+              <p>All time customer support</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="simpleModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Item Added</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">your product added to your favorite list</div>
+      <div class="modal-footer">
+        <a class="btn btn-secondary" data-dismiss="modal">continue shopping</a>
+        <a
+          routerLink="/favourite"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+          >go to favourite list</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
